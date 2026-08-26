@@ -1,22 +1,22 @@
-# MMU Region Checker & Constrained-Random Verification (CRV)
+# MMU Region Checker & Môi trường Kiểm thử Ngẫu nhiên có Ràng buộc (CRV)
 
-A parameterized SystemVerilog Memory Management Unit (MMU) Region Checker RTL paired with an Object-Oriented Constrained-Random Testbench environment.
+Dự án thiết kế phần cứng bộ kiểm tra phân vùng bộ nhớ (MMU Region Checker) bằng SystemVerilog RTL có thể cấu hình tham số, kết hợp môi trường kiểm thử hướng đối tượng sử dụng kỹ thuật Kiểm thử Ngẫu nhiên có Ràng buộc (Constrained-Random Verification - CRV).
 
-## 📌 Key Features
+## 📌 Tính năng chính
 
-- **Parameterized Architecture**: Fully configurable number of memory regions (`NUM_REGIONS`) with automated bit-width calculation for region indexing (`ID_WIDTH = $clog2(NUM_REGIONS)`).
-- **Single-Cycle Combinatorial Hit Logic**: Parallel evaluation of address bounds returning access hits and region identifiers with zero latency overhead.
-- **Hardware Safety Engine**: Combinatorial fault checking logic detecting any overlapping address ranges between active regions (`overlap_fault`).
-- **Constrained-Random Verification (CRV)**: SystemVerilog OOP testbench implementing multi-block random memory allocation, boundary alignment constraints (4-byte aligned), and random transaction injection.
+- **Thiết kế tham số hóa (Parameterized RTL)**: Tự do cấu hình số lượng phân vùng nhớ (`NUM_REGIONS`), tự động tính toán độ rộng bit định danh vùng (`ID_WIDTH = $clog2(NUM_REGIONS)`).
+- **Mạch dò trúng phân vùng (Single-Cycle Combinatorial Hit Logic)**: Đánh giá song song các mốc địa chỉ biên trong 1 chu kỳ tổ hợp, trả về cờ `hit` và `hit_region_id` tức thì không trễ chu kỳ.
+- **Phát hiện lỗi chồng lấn phần cứng (Hardware Safety Engine)**: Mạch logic tổ hợp tự động phát hiện và cảnh báo cờ lỗi `overlap_fault` nếu có bất kỳ hai phân vùng nhớ nào bị cấu hình đè/chồng lấn lên nhau.
+- **Kiểm thử ngẫu nhiên hướng đối tượng (CRV Testbench)**: Áp dụng OOP SystemVerilog để phân bổ ngẫu nhiên các khối nhớ, ép chuẩn căn chỉnh địa chỉ 4-byte (word-aligned) và phát sinh chuỗi giao dịch đọc/ghi ngẫu nhiên (Stimulus Traffic).
 
-## 📁 Project Structure
+## 📁 Cấu trúc thư mục
 
-- `mmu_region_checker.sv`: Synthesizable MMU Region Checker RTL module.
-- `tb_mem_system.sv`: SystemVerilog testbench containing `mem_block`, `mem_system` classes, and random transaction drivers.
+- `mmu_region_checker.sv`: Mã nguồn RTL phần cứng có thể tổng hợp được (Synthesizable).
+- `tb_mem_system.sv`: Môi trường kiểm thử SystemVerilog gồm các class `mem_block`, `mem_system` và bộ phát test vector ngẫu nhiên.
 
-## 🚀 How to Simulate
+## 🚀 Hướng dẫn chạy mô phỏng
 
-### Vivado (xsim via CLI)
+### Chạy bằng Vivado (xsim qua dòng lệnh)
 
 ```bash
 xvlog -sv mmu_region_checker.sv tb_mem_system.sv
